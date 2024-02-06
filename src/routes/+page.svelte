@@ -458,7 +458,7 @@
 		);
 
 		// Change the cursor to a pointer when
-		// the mouse is over the states layer.
+		// the mouse is over the states layer. yea
 		map.on(
 			"mouseenter",
 			[
