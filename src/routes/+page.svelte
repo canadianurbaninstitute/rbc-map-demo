@@ -834,7 +834,7 @@
 	}
 
 	#sidebar {
-		width: 30vw;
+		width: 35vw;
 		display: flex;
 		flex-direction: column;
 		padding: 0.5em 1em 0.5em 1em;
