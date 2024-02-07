@@ -43,6 +43,7 @@ h5, h3 {
     margin: 0 auto;
     font-family: 'Inter', sans-serif;
     color: var(--brandGreen);
+    text-align: center;
 }
 
 h4 {

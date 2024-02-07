@@ -827,22 +827,38 @@
 		position: relative;
 	}
 
-	#content-container {
-		display: flex;
-		flex-direction: row;
-		overflow: hidden;
+
+
+	@media only screen and (min-width: 768px) {
+		#content-container {
+			display: flex;
+			flex-direction: row;
+			overflow: hidden;
+		}
+
+		#sidebar {
+			width: 35vw;
+			display: flex;
+			flex-direction: column;
+			padding: 0.5em 1em 0.5em 1em;
+			border-right: 1px solid #eee;
+			overflow-y: scroll;
+			overflow-x: hidden;
+			height: 100vh;
+		}
+}
+
+	@media only screen and (max-width: 768px) {
+		#content-container {
+			flex-direction: column;
+		}
+
+		#sidebar {
+		width: 100%;
+		padding: 1em;
+		}
 	}
 
-	#sidebar {
-		width: 35vw;
-		display: flex;
-		flex-direction: column;
-		padding: 0.5em 1em 0.5em 1em;
-		border-right: 1px solid #eee;
-		overflow-y: scroll;
-		overflow-x: hidden;
-		height: 100vh;
-	}
 
 	#resetButton {
 		background-color: var(--brandGreen);
@@ -886,14 +902,13 @@
 		width: 100%;
 	}
 
-	@media screen and (min-width: 640px) {
-		.legend {
-			background-color: #fff;
-			padding: 1em;
-			border: 1px solid #eee;
-			margin: 0.5em 0 0.5em 0;
-		}
-	}
+	.legend {
+		background-color: #fff;
+		padding: 1em;
+		border: 1px solid #eee;
+		margin: 0.5em 0 0.5em 0;
+	 }
+
 
 	#nearestStreetLabel {
 		display: none;
