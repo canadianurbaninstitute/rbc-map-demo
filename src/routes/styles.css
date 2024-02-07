@@ -75,3 +75,9 @@ h1 {
 .marker {
     cursor:pointer;
 }
+
+.mapboxgl-ctrl-geocoder {
+    border-radius: 0;
+    box-shadow: none;
+    border: 1px solid #eee;
+}
