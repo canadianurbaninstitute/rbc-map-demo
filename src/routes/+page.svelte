@@ -1,5 +1,6 @@
 <script>
 	import { onMount } from "svelte";
+	import { jsPDF } from "jsPDF"
 	import mapboxgl from "mapbox-gl";
 	import * as turf from "@turf/turf";
 	import Icon from "@iconify/svelte";
@@ -19,6 +20,8 @@
 	export let map;
 
 	let distance = "0";
+	let eligibility = "";
+	let message = "";
 
 	// info
 	let streetname = "Southern Ontario";
@@ -93,11 +96,29 @@
 		[-74.32038089, 46.2933883],
 	];
 
+	function generatePDF() {
+		const doc = new jsPDF({  
+			unit: 'pt' }) // create jsPDF object
+		const pdfElement = document.getElementById('sidebar') // HTML element to be converted to PDF
+
+		doc.html(pdfElement, {
+			callback: (pdf) => {
+			pdf.save(`${streetname} Data (My Main Street).pdf`)
+			},
+			margin: 12, // optional: page margin
+			// optional: other HTMLOptions
+		})
+	}
+
 	function handleMapClick(e) {
 
 		document.getElementById(
 						"streetCatchmentLegend",
 					).style.display = "block";
+
+		document.getElementById(
+						"downloadButton",
+					).style.display = "flex";
 
 		// map zooming
 
@@ -342,9 +363,20 @@
 						"nearestStreetLabel",
 					).style.display = "block";
 
-					distance = nearestDistance.toFixed(1);
+					distance = (nearestDistance*1000).toFixed(0);
 
-					handleMapClick(geojson);
+					if (nearestDistance < 0.1) {
+						handleMapClick(geojson);
+						eligibility = "eligible!";
+						message = "Press the download button to download the data associated with your main street to include in your application.";
+
+					}
+					else {
+						console.log('not eligible')
+						eligibility = "not eligible.";
+						message = "Please contact us if you have any questions.";
+
+					}
 				});
 			});
 
@@ -448,14 +480,14 @@
 			// });
 		});
 
-		map.on(
-			"click",
-			[
-				"mainstreets-southern-ontario",
-				"mainstreets-southern-ontario-invisible",
-			],
-			handleMapClick,
-		);
+		// map.on(
+		// 	"click",
+		// 	[
+		// 		"mainstreets-southern-ontario",
+		// 		"mainstreets-southern-ontario-invisible",
+		// 	],
+		// 	handleMapClick,
+		// );
 
 		// Change the cursor to a pointer when
 		// the mouse is over the states layer. yea
@@ -591,224 +623,231 @@
 		<!-- <div id="imageContainer">
 			<img src={logo} alt="logo" width="100px" />
 		</div> -->
-		<p>This is a map of main streets within Southern Ontario (for more information, click here). Enter your address in the search box to find the relevant information about the nearest main street, or navigate the map to click on a street manually.</p>
-		<hr/>
-		<div id="nearestStreetLabel">
-			<h5>Nearest Main Street ({distance} km away)</h5>
+		<div>
+		<h5>How it works:</h5>
+		<p>This is a map of main streets within Southern Ontario (for more information, click here). Enter your address in the search box to determine your eligibility.</p>
+		<hr>
 		</div>
-		<h2>{streetname}</h2>
-		<h5>{place}</h5>
-		<hr />
-		<div class="legend">
-			<LegendItem
-				variant={"polygon"}
-				label={"Main Streets"}
-				bgcolor={"#0134cb"}
-				bordercolor={"#0134cb"}
-			/>
-			<div id="streetCatchmentLegend">
+			<div id="nearestStreetLabel">
+				<h5>The nearest Main Street is {distance} metres away. You are {eligibility} {message} </h5>
+				<hr/>
+			</div>
+			<div>
+			<h2>{streetname}</h2>
+			</div>
+			<h5>{place}</h5>
+			<hr />
+			<div class="legend">
 				<LegendItem
 					variant={"polygon"}
-					label={"Main Street Catchment Area (1km)"}
-					bgcolor={"#ffb8b8"}
-					bordercolor={"#cb1515"}
+					label={"Main Streets"}
+					bgcolor={"#0134cb"}
+					bordercolor={"#0134cb"}
 				/>
-			</div>
-		</div>
-		<hr />
-		<div class="metric-container">
-			<Metric
-				label={"Population"}
-				value={population}
-				icon={"fluent:people-20-filled"}
-			/>
-			<Metric
-				label={"Employees"}
-				value={employees}
-				icon={"mdi:briefcase"}
-			/>
-		</div>
-		<Accordion>
-			<Metric
-				accordion
-				slot="header"
-				label={"Civic Infrastructure (On Street)"}
-				value={civic}
-				icon={"heroicons:building-library-20-solid"}
-			/>
-			<div slot="body">
-				<div class="metric-container">
-					<Metric
-						label={"Education"}
-						value={civic_education}
-						icon={"mdi:school"}
-					/>
-					<Metric
-						label={"Arts & Culture"}
-						value={civic_arts_culture}
-						icon={"fa6-solid:masks-theater"}
-					/>
-					<Metric
-						label={"Recreation"}
-						value={civic_recreation}
-						icon={"material-symbols:park-rounded"}
-					/>
-				</div>
-				<div class="metric-container">
-					<Metric
-						label={"Government & Community Services"}
-						value={civic_govt_community}
-						icon={"mingcute:government-fill"}
-					/>
-					<Metric
-						label={"Health & Care Facilities"}
-						value={civic_healthcare}
-						icon={"mdi:hospital-box"}
+				<div id="streetCatchmentLegend">
+					<LegendItem
+						variant={"polygon"}
+						label={"Main Street Catchment Area (1km)"}
+						bgcolor={"#ffb8b8"}
+						bordercolor={"#cb1515"}
 					/>
 				</div>
 			</div>
-		</Accordion>
-		<Accordion>
-			<Metric
-				accordion
-				slot="header"
-				label={"Businesses (On Street)"}
-				value={business}
-				icon={"mdi:building"}
-			/>
-			<div slot="body" class="metric-container">
+			<button id="downloadButton" on:click={generatePDF}> Download Data </button>
+			<hr />
+			<div class="metric-container">
 				<Metric
-					label={"Retail"}
-					value={business_retail}
-					icon={"mdi:shopping"}
+					label={"Population"}
+					value={population}
+					icon={"fluent:people-20-filled"}
 				/>
 				<Metric
-					label={"Food & Drink"}
-					value={business_food_drink}
-					icon={"dashicons:food"}
-				/>
-				<Metric
-					label={"Services"}
-					value={business_services}
-					icon={"mdi:ticket"}
+					label={"Employees"}
+					value={employees}
+					icon={"mdi:briefcase"}
 				/>
 			</div>
-		</Accordion>
-		<Metric
-			label={"Independent Business Index"}
-			value={independent_business}
-			icon={"mdi:shop"}
-		/>
-		<h6>Demographic</h6>
-		<div class="metric-container">
-			<Metric
-				label={"Average Income"}
-				prefix={"$"}
-				value={income.toLocaleString()}
-				icon={"mdi:wallet"}
-			/>
-			<Metric
-				label={"Bachelor's Degree"}
-				value={education}
-				suffix={"%"}
-				icon={"mdi:school"}
-			/>
-		</div>
-		<Accordion>
-			<Metric
-				accordion
-				slot="header"
-				label={"Average Age"}
-				value={average_age}
-				icon={"mingcute:birthday-2-fill"}
-			/>
-			<div slot="body" class="metric-container">
-				<Metric label={"0 to 19"} value={age_0_19} suffix={"%"} />
-				<Metric label={"20 to 64"} value={age_20_64} suffix={"%"} />
+			<Accordion>
 				<Metric
-					label={"65 and over"}
-					value={age_over_65}
+					accordion
+					slot="header"
+					label={"Civic Infrastructure (On Street)"}
+					value={civic}
+					icon={"heroicons:building-library-20-solid"}
+				/>
+				<div slot="body">
+					<div class="metric-container">
+						<Metric
+							label={"Education"}
+							value={civic_education}
+							icon={"mdi:school"}
+						/>
+						<Metric
+							label={"Arts & Culture"}
+							value={civic_arts_culture}
+							icon={"fa6-solid:masks-theater"}
+						/>
+						<Metric
+							label={"Recreation"}
+							value={civic_recreation}
+							icon={"material-symbols:park-rounded"}
+						/>
+					</div>
+					<div class="metric-container">
+						<Metric
+							label={"Government & Community Services"}
+							value={civic_govt_community}
+							icon={"mingcute:government-fill"}
+						/>
+						<Metric
+							label={"Health & Care Facilities"}
+							value={civic_healthcare}
+							icon={"mdi:hospital-box"}
+						/>
+					</div>
+				</div>
+			</Accordion>
+			<Accordion>
+				<Metric
+					accordion
+					slot="header"
+					label={"Businesses (On Street)"}
+					value={business}
+					icon={"mdi:building"}
+				/>
+				<div slot="body" class="metric-container">
+					<Metric
+						label={"Retail"}
+						value={business_retail}
+						icon={"mdi:shopping"}
+					/>
+					<Metric
+						label={"Food & Drink"}
+						value={business_food_drink}
+						icon={"dashicons:food"}
+					/>
+					<Metric
+						label={"Services"}
+						value={business_services}
+						icon={"mdi:ticket"}
+					/>
+				</div>
+			</Accordion>
+			<Metric
+				label={"Independent Business Index"}
+				value={independent_business}
+				icon={"mdi:shop"}
+			/>
+			<h6>Demographic</h6>
+			<div class="metric-container">
+				<Metric
+					label={"Average Income"}
+					prefix={"$"}
+					value={income.toLocaleString()}
+					icon={"mdi:wallet"}
+				/>
+				<Metric
+					label={"Bachelor's Degree"}
+					value={education}
 					suffix={"%"}
+					icon={"mdi:school"}
 				/>
 			</div>
-		</Accordion>
-		<div class="metric-container">
-			<Metric
-				label={"Recent Immigrants"}
-				value={immigrants}
-				suffix={"%"}
-				icon={"mdi:globe"}
-			/>
-			<Metric
-				label={"Visible Minorities"}
-				value={visibleminority}
-				suffix={"%"}
-				icon={"material-symbols:handshake"}
-			/>
-			<Metric
-				label={"Indigenous Population"}
-				value={indigenous}
-				suffix={"%"}
-				icon={"mdi:person"}
-			/>
-		</div>
-		<h6>Commuting</h6>
-		<div class="metric-container">
-			<Metric label={"Car"} value={car} suffix={"%"} icon={"mdi:car"} />
-			<Metric
-				label={"Public Transit"}
-				value={public_transit}
-				suffix={"%"}
-				icon={"mdi:bus"}
-			/>
-			<Metric
-				label={"Active Transit"}
-				value={active_transit}
-				suffix={"%"}
-				icon={"mdi:bike"}
-			/>
-		</div>
-		<h6>Housing</h6>
-		<Accordion>
-			<Metric
-				accordion
-				slot="header"
-				label={"Dwellings"}
-				value={dwellings}
-				icon={"material-symbols:apartment"}
-			/>
-			<div slot="body">
-				<div class="metric-container">
+			<Accordion>
+				<Metric
+					accordion
+					slot="header"
+					label={"Average Age"}
+					value={average_age}
+					icon={"mingcute:birthday-2-fill"}
+				/>
+				<div slot="body" class="metric-container">
+					<Metric label={"0 to 19"} value={age_0_19} suffix={"%"} />
+					<Metric label={"20 to 64"} value={age_20_64} suffix={"%"} />
 					<Metric
-						label={"Single Detached"}
-						value={singledetached}
-						suffix={"%"}
-					/>
-					<Metric
-						label={"Semi-Detached"}
-						value={semidetached}
-						suffix={"%"}
-					/>
-					<Metric label={"Duplex"} value={duplex} suffix={"%"} />
-				</div>
-				<div class="metric-container">
-					<Metric
-						label={"Apartment (>5 stories)"}
-						value={apartments_more_than_5}
-						suffix={"%"}
-					/>
-					<Metric
-						label={"Apartment (<5 stories)"}
-						value={apartments_less_than_5}
+						label={"65 and over"}
+						value={age_over_65}
 						suffix={"%"}
 					/>
 				</div>
+			</Accordion>
+			<div class="metric-container">
+				<Metric
+					label={"Recent Immigrants"}
+					value={immigrants}
+					suffix={"%"}
+					icon={"mdi:globe"}
+				/>
+				<Metric
+					label={"Visible Minorities"}
+					value={visibleminority}
+					suffix={"%"}
+					icon={"material-symbols:handshake"}
+				/>
+				<Metric
+					label={"Indigenous Population"}
+					value={indigenous}
+					suffix={"%"}
+					icon={"mdi:person"}
+				/>
 			</div>
-		</Accordion>
+			<h6>Commuting</h6>
+			<div class="metric-container">
+				<Metric label={"Car"} value={car} suffix={"%"} icon={"mdi:car"} />
+				<Metric
+					label={"Public Transit"}
+					value={public_transit}
+					suffix={"%"}
+					icon={"mdi:bus"}
+				/>
+				<Metric
+					label={"Active Transit"}
+					value={active_transit}
+					suffix={"%"}
+					icon={"mdi:bike"}
+				/>
+			</div>
+			<h6>Housing</h6>
+			<Accordion>
+				<Metric
+					accordion
+					slot="header"
+					label={"Dwellings"}
+					value={dwellings}
+					icon={"material-symbols:apartment"}
+				/>
+				<div slot="body">
+					<div class="metric-container">
+						<Metric
+							label={"Single Detached"}
+							value={singledetached}
+							suffix={"%"}
+						/>
+						<Metric
+							label={"Semi-Detached"}
+							value={semidetached}
+							suffix={"%"}
+						/>
+						<Metric label={"Duplex"} value={duplex} suffix={"%"} />
+					</div>
+					<div class="metric-container">
+						<Metric
+							label={"Apartment (>5 stories)"}
+							value={apartments_more_than_5}
+							suffix={"%"}
+						/>
+						<Metric
+							label={"Apartment (<5 stories)"}
+							value={apartments_less_than_5}
+							suffix={"%"}
+						/>
+					</div>
+				</div>
+			</Accordion>
 		<hr />
+		<button id="resetButton" on:click={resetMap}> Reset Map </button>
 		<!-- <Metric label={'English Speakers'} value={english} suffix={'%'}/>
 		<Metric label={'French Speakers'} value={french} suffix={'%'} /> -->
-		<button id="resetButton" on:click={resetMap}> Reset Map </button>
 	</div>
 	<div id="map" />
 </div>
@@ -865,12 +904,12 @@
 		opacity: 1;
 		width: 100%;
 		display: flex;
-		padding: 0.5em;
+		padding: 0.3em;
 		align-items: center;
 		justify-content: center;
 		color: #fff;
 		text-decoration: none;
-		font-size: 1em;
+		font-size: 0.8em;
 		border: none;
 		font-family: "Roboto", sans-serif;
 		font-weight: 400;
@@ -882,15 +921,34 @@
 		transition: 0.5s;
 	}
 
+	#downloadButton {
+		background-color: var(--brandGreen);
+		opacity: 1;
+		width: 100%;
+		display: none;
+		padding: 0.3em;
+		align-items: center;
+		justify-content: center;
+		color: #fff;
+		text-decoration: none;
+		font-size: 0.8em;
+		border: none;
+		font-family: "Roboto", sans-serif;
+		font-weight: 400;
+		margin: 0.5em 0 0.5em 0;
+	}
+
+	#downloadButton:hover {
+		cursor: pointer;
+		background-color: #297424;
+		transition: 0.5s;
+	}
+
 	.metric-container {
 		display: flex;
 		flex-direction: row;
 		gap: 0.5em;
 		/*width: 20vw;*/
-	}
-
-	h2 {
-		text-align: center;
 	}
 
 	h6 {
@@ -904,7 +962,7 @@
 
 	.legend {
 		background-color: #fff;
-		padding: 1em;
+		padding: 0.2em;
 		border: 1px solid #eee;
 		margin: 0.5em 0 0.5em 0;
 	 }

@@ -21,7 +21,7 @@
 
 <style>
 	.metric {
-		padding: 0.35em;
+		padding: 0.3em;
 		border: 1px solid #ddd;
 		margin: 0.15em 0 0.15em 0;
 		display: flex;
@@ -44,11 +44,11 @@
 	}
 
 	.label {
-		font-size: 0.4em;
+		font-size: 0.3em;
 	}
 
 	.value {
-		font-size: 0.75em;
+		font-size: 0.7em;
 		display: flex;
 		flex-direction: row;
 		align-items: center;
