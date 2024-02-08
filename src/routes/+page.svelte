@@ -316,7 +316,7 @@
 
 		map.addControl(
 			new mapboxgl.AttributionControl({
-				customAttribution: "Canadian Urban Institute, Data from Environics Analytics, Statistics Canada",
+				customAttribution: "Canadian Urban Institute, Data Sources: Environics Analytics, Statistics Canada",
 			}),
 		);
 
@@ -367,14 +367,14 @@
 
 					if (nearestDistance < 0.1) {
 						handleMapClick(geojson);
-						eligibility = "eligible!";
-						message = "Press the download button to download the data associated with your main street to include in your application.";
+						eligibility = "eligible";
+						message = "Please enter this information directly into your Expression of Interest application. You can use the download button to download a copy the data associated with the main street.";
 
 					}
 					else {
 						console.log('not eligible')
-						eligibility = "not eligible.";
-						message = "Please contact us if you have any questions.";
+						eligibility = "ineligible";
+						message = "For questions, please contact us.";
 
 					}
 				});
@@ -480,14 +480,14 @@
 			// });
 		});
 
-		// map.on(
-		// 	"click",
-		// 	[
-		// 		"mainstreets-southern-ontario",
-		// 		"mainstreets-southern-ontario-invisible",
-		// 	],
-		// 	handleMapClick,
-		// );
+		map.on(
+			"click",
+			[
+				"mainstreets-southern-ontario",
+				"mainstreets-southern-ontario-invisible",
+			],
+			handleMapClick,
+		);
 
 		// Change the cursor to a pointer when
 		// the mouse is over the states layer. yea
@@ -625,11 +625,12 @@
 		</div> -->
 		<div>
 		<h5>How it works:</h5>
-		<p>This is a map of main streets within Southern Ontario (for more information, click here). Enter your address in the search box to determine your eligibility.</p>
+		<p>TThis is a map of main streets within southern Ontario. Enter your address in the search box to determine if you are eligible for the My Main Street program and for the associated information about your nearest main street. The map will highlight your nearest main street if you are eligible for the program, or indicate if you are ineligible.
+			You may also navigate the map to click on a street manually.</p>
 		<hr>
 		</div>
 			<div id="nearestStreetLabel">
-				<h5>The nearest Main Street is {distance} metres away. You are {eligibility} {message} </h5>
+				<h5>The nearest Main Street is {distance} metres away. This address is {eligibility} for the My Main Street Program. {message} </h5>
 				<hr/>
 			</div>
 			<div>
