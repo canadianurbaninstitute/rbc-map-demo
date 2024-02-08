@@ -625,7 +625,7 @@
 		</div> -->
 		<div>
 		<h5>How it works:</h5>
-		<p>TThis is a map of main streets within southern Ontario. Enter your address in the search box to determine if you are eligible for the My Main Street program and for the associated information about your nearest main street. The map will highlight your nearest main street if you are eligible for the program, or indicate if you are ineligible.
+		<p>This is a map of main streets within southern Ontario. Enter your address in the search box to determine if you are eligible for the My Main Street program and for the associated information about your nearest main street. The map will highlight your nearest main street if you are eligible for the program, or indicate if you are ineligible.
 			You may also navigate the map to click on a street manually.</p>
 		<hr>
 		</div>
