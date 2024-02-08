@@ -316,7 +316,7 @@
 
 		map.addControl(
 			new mapboxgl.AttributionControl({
-				customAttribution: "Canadian Urban Institute",
+				customAttribution: "Canadian Urban Institute, Data from Environics Analytics, Statistics Canada",
 			}),
 		);
 
