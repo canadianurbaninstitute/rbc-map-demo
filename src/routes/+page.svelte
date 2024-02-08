@@ -1,7 +1,7 @@
 <script>
 	import { onMount } from "svelte";
-	import { jsPDF } from "jsPDF"
-	import mapboxgl from "mapbox-gl";
+	import jsPDF from 'jspdf/dist/jspdf.umd.js';
+		import mapboxgl from "mapbox-gl";
 	import * as turf from "@turf/turf";
 	import Icon from "@iconify/svelte";
 	import "../routes/styles.css";
