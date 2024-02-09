@@ -891,7 +891,7 @@
 			display: flex;
 			flex-direction: column;
 			padding: 0.5em 1em 0.5em 1em;
-			border-right: 1px solid #eee;
+			border: 1px solid #eee;
 			overflow-y: scroll;
 			overflow-x: hidden;
 			height: 100vh;
