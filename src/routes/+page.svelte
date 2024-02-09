@@ -321,7 +321,6 @@
 
 		map.scrollZoom.disable();
 
-
 		// Geocoder Search
 
 		map.on("load", () => {
@@ -369,13 +368,13 @@
 					if (nearestDistance < 0.1) {
 						handleMapClick(geojson);
 						eligibility = "eligible";
-						eligibilitycolor = "#006501"
+						eligibilitycolor = "#006501";
 						message =
 							"Please enter this information directly into your Expression of Interest application. You can use the download button to download a copy the data associated with the main street.";
 					} else {
 						console.log("not eligible");
 						eligibility = "ineligible";
-						eligibilitycolor = "#cb1515"
+						eligibilitycolor = "#cb1515";
 						message = "";
 						removeFilters();
 					}
@@ -418,68 +417,6 @@
 				// Place polygons under labels, roads and buildings.
 				"mainstreets-southern-ontario",
 			);
-
-			// Clusters
-
-			// map.addSource("projects", {
-			// 	type: "geojson",
-			// 	data: projects,
-			// 	cluster: true,
-			// 	clusterMaxZoom: 14, // Max zoom to cluster points on
-			// 	clusterRadius: 50, // Radius of each cluster when clustering points (defaults to 50)
-			// });
-
-			// map.addLayer({
-			// 	id: "clusters",
-			// 	type: "circle",
-			// 	source: "projects",
-			// 	filter: ["has", "point_count"],
-			// 	paint: {
-			// 		// Use step expressions (https://docs.mapbox.com/style-spec/reference/expressions/#step)
-			// 		// with three steps to implement three types of circles:
-			// 		//   * Blue, 20px circles when point count is less than 100
-			// 		//   * Yellow, 30px circles when point count is between 100 and 750
-			// 		//   * Pink, 40px circles when point count is greater than or equal to 750
-			// 		"circle-color": '#8AC149',
-			// 		"circle-radius": [
-			// 			"step",
-			// 			["get", "point_count"],
-			// 			20,
-			// 			100,
-			// 			30,
-			// 			750,
-			// 			40,
-			// 		],
-			// 	},
-			// });
-
-			// map.addLayer({
-			// 	id: "cluster-count",
-			// 	type: "symbol",
-			// 	source: "projects",
-			// 	filter: ["has", "point_count"],
-			// 	layout: {
-			// 		"text-field": ["get", "point_count_abbreviated"],
-			// 		"text-font": [
-			// 			"DIN Offc Pro Medium",
-			// 			"Arial Unicode MS Bold",
-			// 		],
-			// 		"text-size": 12,
-			// 	},
-			// });
-
-			// map.addLayer({
-			// 	id: "unclustered-point",
-			// 	type: "circle",
-			// 	source: "projects",
-			// 	filter: ["!", ["has", "point_count"]],
-			// 	paint: {
-			// 		"circle-color": "#8AC149",
-			// 		"circle-radius": 4,
-			// 		"circle-stroke-width": 1,
-			// 		"circle-stroke-color": "#fff",
-			// 	},
-			// });
 		});
 
 		map.on(
@@ -604,8 +541,9 @@
 	}
 
 	function removeFilters() {
-
 		document.getElementById("streetCatchmentLegend").style.display = "none";
+		document.getElementById("downloadButton").style.display = "none";
+
 
 		// info
 		streetname = "Southern Ontario";
@@ -699,7 +637,9 @@
 		<div id="nearestStreetLabel">
 			<h5>
 				The nearest Main Street is {distance} metres away. This address is
-				<span style="color: {eligibilitycolor};">{eligibility}</span> for the My Main Street Program. {message} For any questions, please <a href="https://mymainstreet.ca/contact-us">contact us</a>.
+				<span style="color: {eligibilitycolor};">{eligibility}</span>
+				for the My Main Street Program. {message} For any questions, please
+				<a href="https://mymainstreet.ca/contact-us">contact us</a>.
 			</h5>
 			<hr />
 		</div>
@@ -728,6 +668,7 @@
 			Download Data
 		</button>
 		<hr />
+		<div id='metric-download'>
 		<div class="metric-container">
 			<Metric
 				label={"Population"}
@@ -917,6 +858,7 @@
 				</div>
 			</div>
 		</Accordion>
+		</div>
 		<hr />
 		<button id="resetButton" on:click={resetMap}> Reset Map </button>
 	</div>
@@ -1043,17 +985,4 @@
 	#streetCatchmentLegend {
 		display: none;
 	}
-
-	p {
-		font-size: 0.8em;
-		color: #222;
-		margin: 0 auto;
-	}
-
-	/*#imageContainer {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		padding: 0.5em;
-	}*/
 </style>
