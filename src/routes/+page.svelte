@@ -1,7 +1,7 @@
 <script>
 	import { onMount } from "svelte";
-	import jsPDF from 'jspdf/dist/jspdf.umd.js';
-		import mapboxgl from "mapbox-gl";
+	import jsPDF from "jspdf/dist/jspdf.umd.js";
+	import mapboxgl from "mapbox-gl";
 	import * as turf from "@turf/turf";
 	import Icon from "@iconify/svelte";
 	import "../routes/styles.css";
@@ -21,6 +21,7 @@
 
 	let distance = "0";
 	let eligibility = "";
+	let eligibilitycolor = "";
 	let message = "";
 
 	// info
@@ -97,28 +98,25 @@
 	];
 
 	function generatePDF() {
-		const doc = new jsPDF({  
-			unit: 'pt' }) // create jsPDF object
-		const pdfElement = document.getElementById('sidebar') // HTML element to be converted to PDF
+		const doc = new jsPDF({
+			unit: "pt",
+		}); // create jsPDF object
+		const pdfElement = document.getElementById("sidebar"); // HTML element to be converted to PDF
 
 		doc.html(pdfElement, {
 			callback: (pdf) => {
-			pdf.save(`${streetname} Data (My Main Street).pdf`)
+				pdf.save(`${streetname} Data (My Main Street).pdf`);
 			},
 			margin: 12, // optional: page margin
 			// optional: other HTMLOptions
-		})
+		});
 	}
 
 	function handleMapClick(e) {
+		document.getElementById("streetCatchmentLegend").style.display =
+			"block";
 
-		document.getElementById(
-						"streetCatchmentLegend",
-					).style.display = "block";
-
-		document.getElementById(
-						"downloadButton",
-					).style.display = "flex";
+		document.getElementById("downloadButton").style.display = "flex";
 
 		// map zooming
 
@@ -206,7 +204,7 @@
 
 		english = e.features[0].properties.LanEng.toFixed(0);
 		french = e.features[0].properties.LanFr.toFixed(0);
-		
+
 		// highlighting road
 
 		let feature;
@@ -316,7 +314,8 @@
 
 		map.addControl(
 			new mapboxgl.AttributionControl({
-				customAttribution: "Canadian Urban Institute, Data Sources: Environics Analytics, Statistics Canada",
+				customAttribution:
+					"Canadian Urban Institute, Data Sources: Environics Analytics, Statistics Canada",
 			}),
 		);
 
@@ -326,7 +325,6 @@
 			map.addControl(geocoder, "top-left");
 
 			geocoder.on("result", function (e) {
-
 				map.once("moveend", function () {
 					const coordinate = [e.result.center[0], e.result.center[1]];
 					const point = turf.point(coordinate);
@@ -363,19 +361,20 @@
 						"nearestStreetLabel",
 					).style.display = "block";
 
-					distance = (nearestDistance*1000).toFixed(0);
+					distance = (nearestDistance * 1000).toFixed(0);
 
 					if (nearestDistance < 0.1) {
 						handleMapClick(geojson);
 						eligibility = "eligible";
-						message = "Please enter this information directly into your Expression of Interest application. You can use the download button to download a copy the data associated with the main street.";
-
-					}
-					else {
-						console.log('not eligible')
+						eligibilitycolor = "#006501"
+						message =
+							"Please enter this information directly into your Expression of Interest application. You can use the download button to download a copy the data associated with the main street.";
+					} else {
+						console.log("not eligible");
 						eligibility = "ineligible";
-						message = "For questions, please contact us.";
-
+						eligibilitycolor = "#cb1515"
+						message = "";
+						removeFilters();
 					}
 				});
 			});
@@ -530,6 +529,80 @@
 		document.getElementById("nearestStreetLabel").style.display = "none";
 		document.getElementById("streetCatchmentLegend").style.display = "none";
 
+		// info
+		streetname = "Southern Ontario";
+		place = "5,299 Main Streets";
+
+		// basic
+
+		population = "29,482,761";
+		employees = "1,692,453";
+
+		// business
+		business = "397,476";
+		business_retail = "185,241";
+		business_services = "143,274";
+		business_food_drink = "68,960";
+
+		independent_business = 0.52; //BII_avg
+
+		// civic
+
+		civic = "197,035";
+		civic_govt_community = "59,272";
+		civic_healthcare = "80,252";
+		civic_education = "34,858";
+		civic_arts_culture = "8,551";
+		civic_recreation = "14,101";
+
+		// demographic
+
+		// income + education
+
+		income = 76427;
+		education = 28;
+
+		// age
+
+		average_age = 41;
+		age_0_19 = 20;
+		age_20_64 = 61;
+		age_over_65 = 19;
+
+		// equity
+
+		immigrants = 28.4;
+		visibleminority = 29.4;
+		indigenous = 3.9;
+
+		// commute
+
+		car = 76;
+		public_transit = 15;
+		active_transit = 8;
+
+		// housing
+
+		dwellings = "11,936,445";
+		singledetached = 49;
+		semidetached = 5;
+		duplex = 6;
+		apartments_more_than_5 = 11;
+		apartments_less_than_5 = 19;
+
+		// language
+
+		french = 18;
+		english = 62;
+
+		map.removeLayer("selectedRoad");
+		map.removeSource("selectedRoad");
+		map.setFilter("canada-DAs-highlighted", ["in", "DAUID", ""]);
+	}
+
+	function removeFilters() {
+
+		document.getElementById("streetCatchmentLegend").style.display = "none";
 
 		// info
 		streetname = "Southern Ontario";
@@ -620,235 +693,229 @@
 
 <div id="content-container">
 	<div id="sidebar">
-		<!-- <div id="imageContainer">
-			<img src={logo} alt="logo" width="100px" />
-		</div> -->
-		<!-- <div>
-		<h5>How it works:</h5>
-		<p>This is a map of main streets within southern Ontario. Enter your address in the search box to determine if you are eligible for the My Main Street program and for the associated information about your nearest main street. The map will highlight your nearest main street if you are eligible for the program, or indicate if you are ineligible.
-			You may also navigate the map to click on a street manually.</p>
-		<hr>
-		</div> -->
-			<div id="nearestStreetLabel">
-				<h5>The nearest Main Street is {distance} metres away. This address is {eligibility} for the My Main Street Program. {message} </h5>
-				<hr/>
-			</div>
-			<div>
-			<h2>{streetname}</h2>
-			</div>
-			<h5>{place}</h5>
+		<div id="nearestStreetLabel">
+			<h5>
+				The nearest Main Street is {distance} metres away. This address is
+				<span style="color: {eligibilitycolor};">{eligibility}</span> for the My Main Street Program. {message} For any questions, please <a href="https://mymainstreet.ca/contact-us">contact us</a>.
+			</h5>
 			<hr />
-			<div class="legend">
+		</div>
+		<div>
+			<h2>{streetname}</h2>
+		</div>
+		<h5>{place}</h5>
+		<hr />
+		<div class="legend">
+			<LegendItem
+				variant={"polygon"}
+				label={"Main Streets"}
+				bgcolor={"#0134cb"}
+				bordercolor={"#0134cb"}
+			/>
+			<div id="streetCatchmentLegend">
 				<LegendItem
 					variant={"polygon"}
-					label={"Main Streets"}
-					bgcolor={"#0134cb"}
-					bordercolor={"#0134cb"}
-				/>
-				<div id="streetCatchmentLegend">
-					<LegendItem
-						variant={"polygon"}
-						label={"Main Street Catchment Area (1km)"}
-						bgcolor={"#ffb8b8"}
-						bordercolor={"#cb1515"}
-					/>
-				</div>
-			</div>
-			<button id="downloadButton" on:click={generatePDF}> Download Data </button>
-			<hr />
-			<div class="metric-container">
-				<Metric
-					label={"Population"}
-					value={population}
-					icon={"fluent:people-20-filled"}
-				/>
-				<Metric
-					label={"Employees"}
-					value={employees}
-					icon={"mdi:briefcase"}
+					label={"Main Street Catchment Area (1km)"}
+					bgcolor={"#ffb8b8"}
+					bordercolor={"#cb1515"}
 				/>
 			</div>
-			<Accordion>
-				<Metric
-					accordion
-					slot="header"
-					label={"Civic Infrastructure (On Street)"}
-					value={civic}
-					icon={"heroicons:building-library-20-solid"}
-				/>
-				<div slot="body">
-					<div class="metric-container">
-						<Metric
-							label={"Education"}
-							value={civic_education}
-							icon={"mdi:school"}
-						/>
-						<Metric
-							label={"Arts & Culture"}
-							value={civic_arts_culture}
-							icon={"fa6-solid:masks-theater"}
-						/>
-						<Metric
-							label={"Recreation"}
-							value={civic_recreation}
-							icon={"material-symbols:park-rounded"}
-						/>
-					</div>
-					<div class="metric-container">
-						<Metric
-							label={"Government & Community Services"}
-							value={civic_govt_community}
-							icon={"mingcute:government-fill"}
-						/>
-						<Metric
-							label={"Health & Care Facilities"}
-							value={civic_healthcare}
-							icon={"mdi:hospital-box"}
-						/>
-					</div>
-				</div>
-			</Accordion>
-			<Accordion>
-				<Metric
-					accordion
-					slot="header"
-					label={"Businesses (On Street)"}
-					value={business}
-					icon={"mdi:building"}
-				/>
-				<div slot="body" class="metric-container">
-					<Metric
-						label={"Retail"}
-						value={business_retail}
-						icon={"mdi:shopping"}
-					/>
-					<Metric
-						label={"Food & Drink"}
-						value={business_food_drink}
-						icon={"dashicons:food"}
-					/>
-					<Metric
-						label={"Services"}
-						value={business_services}
-						icon={"mdi:ticket"}
-					/>
-				</div>
-			</Accordion>
+		</div>
+		<button id="downloadButton" on:click={generatePDF}>
+			Download Data
+		</button>
+		<hr />
+		<div class="metric-container">
 			<Metric
-				label={"Independent Business Index"}
-				value={independent_business}
-				icon={"mdi:shop"}
+				label={"Population"}
+				value={population}
+				icon={"fluent:people-20-filled"}
 			/>
-			<h6>Demographic</h6>
-			<div class="metric-container">
+			<Metric
+				label={"Employees"}
+				value={employees}
+				icon={"mdi:briefcase"}
+			/>
+		</div>
+		<Accordion>
+			<Metric
+				accordion
+				slot="header"
+				label={"Civic Infrastructure (On Street)"}
+				value={civic}
+				icon={"heroicons:building-library-20-solid"}
+			/>
+			<div slot="body">
+				<div class="metric-container">
+					<Metric
+						label={"Education"}
+						value={civic_education}
+						icon={"mdi:school"}
+					/>
+					<Metric
+						label={"Arts & Culture"}
+						value={civic_arts_culture}
+						icon={"fa6-solid:masks-theater"}
+					/>
+					<Metric
+						label={"Recreation"}
+						value={civic_recreation}
+						icon={"material-symbols:park-rounded"}
+					/>
+				</div>
+				<div class="metric-container">
+					<Metric
+						label={"Government & Community Services"}
+						value={civic_govt_community}
+						icon={"mingcute:government-fill"}
+					/>
+					<Metric
+						label={"Health & Care Facilities"}
+						value={civic_healthcare}
+						icon={"mdi:hospital-box"}
+					/>
+				</div>
+			</div>
+		</Accordion>
+		<Accordion>
+			<Metric
+				accordion
+				slot="header"
+				label={"Businesses (On Street)"}
+				value={business}
+				icon={"mdi:building"}
+			/>
+			<div slot="body" class="metric-container">
 				<Metric
-					label={"Average Income"}
-					prefix={"$"}
-					value={income.toLocaleString()}
-					icon={"mdi:wallet"}
+					label={"Retail"}
+					value={business_retail}
+					icon={"mdi:shopping"}
 				/>
 				<Metric
-					label={"Bachelor's Degree"}
-					value={education}
-					suffix={"%"}
-					icon={"mdi:school"}
+					label={"Food & Drink"}
+					value={business_food_drink}
+					icon={"dashicons:food"}
+				/>
+				<Metric
+					label={"Services"}
+					value={business_services}
+					icon={"mdi:ticket"}
 				/>
 			</div>
-			<Accordion>
+		</Accordion>
+		<Metric
+			label={"Independent Business Index"}
+			value={independent_business}
+			icon={"mdi:shop"}
+		/>
+		<h6>Demographic</h6>
+		<div class="metric-container">
+			<Metric
+				label={"Average Income"}
+				prefix={"$"}
+				value={income.toLocaleString()}
+				icon={"mdi:wallet"}
+			/>
+			<Metric
+				label={"Bachelor's Degree"}
+				value={education}
+				suffix={"%"}
+				icon={"mdi:school"}
+			/>
+		</div>
+		<Accordion>
+			<Metric
+				accordion
+				slot="header"
+				label={"Average Age"}
+				value={average_age}
+				icon={"mingcute:birthday-2-fill"}
+			/>
+			<div slot="body" class="metric-container">
+				<Metric label={"0 to 19"} value={age_0_19} suffix={"%"} />
+				<Metric label={"20 to 64"} value={age_20_64} suffix={"%"} />
 				<Metric
-					accordion
-					slot="header"
-					label={"Average Age"}
-					value={average_age}
-					icon={"mingcute:birthday-2-fill"}
+					label={"65 and over"}
+					value={age_over_65}
+					suffix={"%"}
 				/>
-				<div slot="body" class="metric-container">
-					<Metric label={"0 to 19"} value={age_0_19} suffix={"%"} />
-					<Metric label={"20 to 64"} value={age_20_64} suffix={"%"} />
+			</div>
+		</Accordion>
+		<div class="metric-container">
+			<Metric
+				label={"Recent Immigrants"}
+				value={immigrants}
+				suffix={"%"}
+				icon={"mdi:globe"}
+			/>
+			<Metric
+				label={"Visible Minorities"}
+				value={visibleminority}
+				suffix={"%"}
+				icon={"material-symbols:handshake"}
+			/>
+			<Metric
+				label={"Indigenous Population"}
+				value={indigenous}
+				suffix={"%"}
+				icon={"mdi:person"}
+			/>
+		</div>
+		<h6>Commuting</h6>
+		<div class="metric-container">
+			<Metric label={"Car"} value={car} suffix={"%"} icon={"mdi:car"} />
+			<Metric
+				label={"Public Transit"}
+				value={public_transit}
+				suffix={"%"}
+				icon={"mdi:bus"}
+			/>
+			<Metric
+				label={"Active Transit"}
+				value={active_transit}
+				suffix={"%"}
+				icon={"mdi:bike"}
+			/>
+		</div>
+		<h6>Housing</h6>
+		<Accordion>
+			<Metric
+				accordion
+				slot="header"
+				label={"Dwellings"}
+				value={dwellings}
+				icon={"material-symbols:apartment"}
+			/>
+			<div slot="body">
+				<div class="metric-container">
 					<Metric
-						label={"65 and over"}
-						value={age_over_65}
+						label={"Single Detached"}
+						value={singledetached}
+						suffix={"%"}
+					/>
+					<Metric
+						label={"Semi-Detached"}
+						value={semidetached}
+						suffix={"%"}
+					/>
+					<Metric label={"Duplex"} value={duplex} suffix={"%"} />
+				</div>
+				<div class="metric-container">
+					<Metric
+						label={"Apartment (>5 stories)"}
+						value={apartments_more_than_5}
+						suffix={"%"}
+					/>
+					<Metric
+						label={"Apartment (<5 stories)"}
+						value={apartments_less_than_5}
 						suffix={"%"}
 					/>
 				</div>
-			</Accordion>
-			<div class="metric-container">
-				<Metric
-					label={"Recent Immigrants"}
-					value={immigrants}
-					suffix={"%"}
-					icon={"mdi:globe"}
-				/>
-				<Metric
-					label={"Visible Minorities"}
-					value={visibleminority}
-					suffix={"%"}
-					icon={"material-symbols:handshake"}
-				/>
-				<Metric
-					label={"Indigenous Population"}
-					value={indigenous}
-					suffix={"%"}
-					icon={"mdi:person"}
-				/>
 			</div>
-			<h6>Commuting</h6>
-			<div class="metric-container">
-				<Metric label={"Car"} value={car} suffix={"%"} icon={"mdi:car"} />
-				<Metric
-					label={"Public Transit"}
-					value={public_transit}
-					suffix={"%"}
-					icon={"mdi:bus"}
-				/>
-				<Metric
-					label={"Active Transit"}
-					value={active_transit}
-					suffix={"%"}
-					icon={"mdi:bike"}
-				/>
-			</div>
-			<h6>Housing</h6>
-			<Accordion>
-				<Metric
-					accordion
-					slot="header"
-					label={"Dwellings"}
-					value={dwellings}
-					icon={"material-symbols:apartment"}
-				/>
-				<div slot="body">
-					<div class="metric-container">
-						<Metric
-							label={"Single Detached"}
-							value={singledetached}
-							suffix={"%"}
-						/>
-						<Metric
-							label={"Semi-Detached"}
-							value={semidetached}
-							suffix={"%"}
-						/>
-						<Metric label={"Duplex"} value={duplex} suffix={"%"} />
-					</div>
-					<div class="metric-container">
-						<Metric
-							label={"Apartment (>5 stories)"}
-							value={apartments_more_than_5}
-							suffix={"%"}
-						/>
-						<Metric
-							label={"Apartment (<5 stories)"}
-							value={apartments_less_than_5}
-							suffix={"%"}
-						/>
-					</div>
-				</div>
-			</Accordion>
+		</Accordion>
 		<hr />
 		<button id="resetButton" on:click={resetMap}> Reset Map </button>
-		<!-- <Metric label={'English Speakers'} value={english} suffix={'%'}/>
-		<Metric label={'French Speakers'} value={french} suffix={'%'} /> -->
 	</div>
 	<div id="map" />
 </div>
@@ -867,8 +934,6 @@
 		position: relative;
 	}
 
-
-
 	@media only screen and (min-width: 768px) {
 		#content-container {
 			display: flex;
@@ -886,7 +951,7 @@
 			overflow-x: hidden;
 			height: 100vh;
 		}
-}
+	}
 
 	@media only screen and (max-width: 768px) {
 		#content-container {
@@ -894,11 +959,10 @@
 		}
 
 		#sidebar {
-		width: 100%;
-		padding: 1em;
+			width: 100%;
+			padding: 1em;
 		}
 	}
-
 
 	#resetButton {
 		background-color: var(--brandGreen);
@@ -966,8 +1030,7 @@
 		padding: 0.2em;
 		border: 1px solid #eee;
 		margin: 0.5em 0 0.5em 0;
-	 }
-
+	}
 
 	#nearestStreetLabel {
 		display: none;
