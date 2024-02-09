@@ -6,7 +6,6 @@
 	import Icon from "@iconify/svelte";
 	import "../routes/styles.css";
 
-	import projects from "../routes/assets/projects.geo.json";
 	import streets from "../routes/assets/mainstreets-southern-ontario.geo.json";
 	import logo from "../routes/assets/logo.png";
 
