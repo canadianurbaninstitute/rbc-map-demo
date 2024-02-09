@@ -319,6 +319,9 @@
 			}),
 		);
 
+		map.scrollZoom.disable();
+
+
 		// Geocoder Search
 
 		map.on("load", () => {
