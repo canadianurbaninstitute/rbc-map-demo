@@ -623,12 +623,12 @@
 		<!-- <div id="imageContainer">
 			<img src={logo} alt="logo" width="100px" />
 		</div> -->
-		<div>
+		<!-- <div>
 		<h5>How it works:</h5>
 		<p>This is a map of main streets within southern Ontario. Enter your address in the search box to determine if you are eligible for the My Main Street program and for the associated information about your nearest main street. The map will highlight your nearest main street if you are eligible for the program, or indicate if you are ineligible.
 			You may also navigate the map to click on a street manually.</p>
 		<hr>
-		</div>
+		</div> -->
 			<div id="nearestStreetLabel">
 				<h5>The nearest Main Street is {distance} metres away. This address is {eligibility} for the My Main Street Program. {message} </h5>
 				<hr/>
