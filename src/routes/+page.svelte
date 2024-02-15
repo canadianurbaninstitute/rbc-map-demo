@@ -86,8 +86,8 @@
 
 	// language
 
-	let french = 18;
-	let english = 62;
+	// let french = 18;
+	// let english = 62;
 
 	let geocoder;
 
@@ -201,8 +201,8 @@
 
 		// language
 
-		english = e.features[0].properties.LanEng.toFixed(0);
-		french = e.features[0].properties.LanFr.toFixed(0);
+		// english = e.features[0].properties.LanEng.toFixed(0);
+		// french = e.features[0].properties.LanFr.toFixed(0);
 
 		// highlighting road
 
@@ -531,8 +531,8 @@
 
 		// language
 
-		french = 18;
-		english = 62;
+		// french = 18;
+		// english = 62;
 
 		map.removeLayer("selectedRoad");
 		map.removeSource("selectedRoad");
@@ -607,8 +607,8 @@
 
 		// language
 
-		french = 18;
-		english = 62;
+		// french = 18;
+		// english = 62;
 
 		map.removeLayer("selectedRoad");
 		map.removeSource("selectedRoad");
