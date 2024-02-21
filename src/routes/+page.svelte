@@ -467,6 +467,8 @@
 		distance = "0";
 		document.getElementById("nearestStreetLabel").style.display = "none";
 		document.getElementById("streetCatchmentLegend").style.display = "none";
+		document.getElementById("downloadButton").style.display = "none";
+
 
 		// info
 		streetname = "Southern Ontario";
