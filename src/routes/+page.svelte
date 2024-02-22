@@ -371,7 +371,6 @@
 						message =
 							"Please enter this information directly into your Expression of Interest application. You can use the download button to download a copy the data associated with the main street.";
 					} else {
-						console.log("not eligible");
 						eligibility = "ineligible";
 						eligibilitycolor = "#cb1515";
 						message = "";
