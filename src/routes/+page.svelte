@@ -471,7 +471,7 @@
 
 		// info
 		streetname = "Southern Ontario";
-		place = "5,299 Main Streets";
+		place = "2,822 Main Streets";
 
 		// basic
 
@@ -547,7 +547,7 @@
 
 		// info
 		streetname = "Southern Ontario";
-		place = "5,299 Main Streets";
+		place = "2,822 Main Streets";
 
 		// basic
 
