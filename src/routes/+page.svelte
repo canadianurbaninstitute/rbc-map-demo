@@ -25,7 +25,7 @@
 
 	// info
 	let streetname = "Southern Ontario";
-	let place = "5,299 Main Streets";
+	let place = "2,822 Main Streets";
 
 	// basic
 
