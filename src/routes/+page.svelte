@@ -364,7 +364,7 @@
 
 					distance = (nearestDistance * 1000).toFixed(0);
 
-					if (nearestDistance < 0.1) {
+					if (nearestDistance < 0.5) {
 						handleMapClick(geojson);
 						eligibility = "eligible";
 						eligibilitycolor = "#006501";
