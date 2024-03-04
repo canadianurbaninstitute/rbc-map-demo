@@ -358,13 +358,18 @@
 						features: [nearestLine],
 					};
 
+					const buffer = turf.buffer(nearestLine, 0.5);
+
+
 					document.getElementById(
 						"nearestStreetLabel",
 					).style.display = "block";
 
 					distance = (nearestDistance * 1000).toFixed(0);
 
-					if (nearestDistance < 0.5) {
+					let intersects = turf.booleanIntersects(point, buffer);
+
+					if (intersects) {
 						handleMapClick(geojson);
 						eligibility = "eligible";
 						eligibilitycolor = "#006501";
