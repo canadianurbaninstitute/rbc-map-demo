@@ -374,11 +374,11 @@
 						eligibility = "eligible";
 						eligibilitycolor = "#006501";
 						message =
-							"You can use the download button to download a copy the data associated with the main street.";
+							"Please proceed with the full application. You can use the download button to download a copy the data associated with the main street; ";
 					} else {
 						eligibility = "ineligible";
 						eligibilitycolor = "#cb1515";
-						message = "";
+						message = "If you believe your address is in fact on a main street that is not identified on this map, or ";
 						removeFilters();
 					}
 				});
@@ -643,7 +643,7 @@
 			<h5>
 				The nearest Main Street is {distance} metres away. This address is
 				<span style="color: {eligibilitycolor};">{eligibility}</span>
-				for the My Main Street Program. {message} For any questions, please
+				for the My Main Street Program. {message} for any other questions, please
 				<a href="https://mymainstreet.ca/contact-us">contact us</a>.
 			</h5>
 			<hr />
