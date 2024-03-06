@@ -371,14 +371,14 @@
 
 					if (intersects) {
 						handleMapClick(geojson);
-						eligibility = "eligible";
-						eligibilitycolor = "#006501";
+						eligibility = "on an identified main street;";
+						// eligibilitycolor = "#006501";
 						message =
-							"Please proceed with the full application. You can use the download button to download a copy the data associated with the main street; ";
+							"please proceed with the application. You can also use the download button to download a copy the data associated with the main street";
 					} else {
-						eligibility = "ineligible";
-						eligibilitycolor = "#cb1515";
-						message = "If you believe your address is in fact on a main street that is not identified on this map, or ";
+						eligibility = "not on an identified main street;";
+						// eligibilitycolor = "#cb1515";
+						message = "if you believe your address is in fact on a main street that is not identified on this map, please email our team";
 						removeFilters();
 					}
 				});
@@ -642,8 +642,7 @@
 		<div id="nearestStreetLabel">
 			<h5>
 				The nearest Main Street is {distance} metres away. This address is
-				<span style="color: {eligibilitycolor};">{eligibility}</span>
-				for the My Main Street Program. {message} for any other questions, please
+				{eligibility} {message}. For any questions, please
 				<a href="https://mymainstreet.ca/contact-us">contact us</a>.
 			</h5>
 			<hr />
