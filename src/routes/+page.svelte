@@ -281,7 +281,7 @@
 	onMount(() => {
 		map = new mapboxgl.Map({
 			container: "map",
-			style: "mapbox://styles/canadianurbaninstitute/clruxylvp00xl01qqhyy4661x?fresh=true",
+			style: "mapbox://styles/canadianurbaninstitute/clruxylvp00xl01qqhyy4661x",
 			center: [-79.1, 44.07],
 			zoom: 6.3,
 			minZoom: 2,
