@@ -283,7 +283,7 @@
 			container: "map",
 			style: "mapbox://styles/canadianurbaninstitute/clruxylvp00xl01qqhyy4661x?fresh=true",
 			center: [-79.1, 44.07],
-			zoom: 8,
+			zoom: 6.3,
 			minZoom: 2,
 			maxBounds: bounds,
 			scrollZoom: true,
@@ -463,7 +463,7 @@
 	function resetMap() {
 		map.flyTo({
 			center: [-79.1, 44.07],
-			zoom: 8,
+			zoom: 6.3,
 		});
 
 		geocoder.clear();
