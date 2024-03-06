@@ -25,7 +25,7 @@
 
 	// info
 	let streetname = "Southern Ontario";
-	let place = "5,299 Main Streets";
+	let place = "Main Streets";
 
 	// basic
 
@@ -476,7 +476,7 @@
 
 		// info
 		streetname = "Southern Ontario";
-		place = "5,299 Main Streets";
+		place = "Main Streets";
 
 		// basic
 
@@ -552,7 +552,7 @@
 
 		// info
 		streetname = "Southern Ontario";
-		place = "5,299 Main Streets";
+		place = "Main Streets";
 
 		// basic
 
