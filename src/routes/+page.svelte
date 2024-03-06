@@ -283,7 +283,7 @@
 			container: "map",
 			style: "mapbox://styles/canadianurbaninstitute/clruxylvp00xl01qqhyy4661x?fresh=true",
 			center: [-79.1, 44.07],
-			zoom: 6.3,
+			zoom: 6.4,
 			minZoom: 6,
 			maxZoom: 16,
 			maxBounds: bounds,
