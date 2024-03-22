@@ -120,6 +120,7 @@
 		// map zooming
 
 		const endpoints = e.features[0].geometry.coordinates;
+		console.log(endpoints)
 		const midpoint = turf.midpoint(endpoints[0], endpoints[1]);
 
 		map.flyTo({
