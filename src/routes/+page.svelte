@@ -77,7 +77,7 @@
 	<div id="map" />
 	<div class="legend">
 		<LegendItem variant={'line'} label={'High Density Main Streets'} bordercolor={'#002940'} />
-		<LegendItem variant={'line'} label={'Low Density Main Streets'} bordercolor={'#00adf2'} />
+		<LegendItem variant={'line'} label={'Low Density Main Street'} bordercolor={'#00adf2'} />
 		<LegendItem variant={'line'} label={'Arterial Streets'} bordercolor={'#eee'} />
 	</div>
 
