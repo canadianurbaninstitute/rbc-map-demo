@@ -97,7 +97,7 @@
 		<Legend
 					minlabel={'Low'}
 					maxlabel={'High'}
-					label={'Average Employment Income'}
+					label={'Average Employment Income (scaled to regional average)'}
 					gradient={'linear-gradient(to right, #cceffe, #99dffc, #34bef9, #018bc6, #004663)'}
 				/>
 		<LegendItem variant={'line'} label={'High Density Main Streets'} bordercolor={'#ddd'} />
