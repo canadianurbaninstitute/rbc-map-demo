@@ -2,9 +2,10 @@
 	import { onMount } from "svelte";
 	import mapboxgl from "mapbox-gl";
 	import "../routes/styles.css";
-	import rbc from "../routes/assets/rbc.svg"
 
 	import LegendItem from "../lib/ui/legends/LegendItem.svelte";
+	import Legend from "../lib/ui/legends/Legend.svelte";
+
 
 	mapboxgl.accessToken =
 		"pk.eyJ1IjoiY2FuYWRpYW51cmJhbmluc3RpdHV0ZSIsImEiOiJjbG95bzJiMG4wNW5mMmlzMjkxOW5lM241In0.o8ZurilZ00tGHXFV-gLSag";
@@ -93,9 +94,14 @@
 				</g>
 			</g>
 		</svg> <p>RBC Branch Locations</p></div>
-		<LegendItem variant={'line'} label={'High Density Main Streets'} bordercolor={'#002940'} />
-		<LegendItem variant={'line'} label={'Low Density Main Street'} bordercolor={'#00adf2'} />
-		<LegendItem variant={'line'} label={'Arterial Streets'} bordercolor={'#eee'} />
+		<Legend
+					minlabel={'Low'}
+					maxlabel={'High'}
+					label={'Average Employment Income'}
+					gradient={'linear-gradient(to right, #cceffe, #99dffc, #34bef9, #018bc6, #004663)'}
+				/>
+		<LegendItem variant={'line'} label={'High Density Main Streets'} bordercolor={'#ddd'} />
+		<LegendItem variant={'line'} label={'Low Density Main Street'} bordercolor={'#eee'} />
 	</div>
 
 <style>
