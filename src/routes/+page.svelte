@@ -78,7 +78,7 @@
 	<div id="map" />
 	<div class="legend">
 		<h4>Legend</h4>
-		<div style="display:flex;flex-direction:row; gap: 0.5em;"><svg width="16px" height="21px" viewBox="0 0 16 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+		<div style="display:flex;flex-direction:row; gap: 0.5em;align-items: center;"><svg width="16px" height="21px" viewBox="0 0 16 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 			<title>RBC_Royal_Bank</title>
 			<g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
 				<g id="RBC_Royal_Bank" transform="translate(-0, 0.0843)" fill-rule="nonzero">
