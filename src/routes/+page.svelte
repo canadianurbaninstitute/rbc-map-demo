@@ -2,6 +2,7 @@
 	import { onMount } from "svelte";
 	import mapboxgl from "mapbox-gl";
 	import "../routes/styles.css";
+	import rbc from "../routes/assets/rbc.svg"
 
 	import LegendItem from "../lib/ui/legends/LegendItem.svelte";
 
@@ -76,6 +77,8 @@
 
 	<div id="map" />
 	<div class="legend">
+		<h4>Legend</h4>
+		<div style="display:flex;flex-direction:row; gap: 0.5em;"><img src={rbc} alt='rbc'> <p>RBC Branch Locations</p></div>
 		<LegendItem variant={'line'} label={'High Density Main Streets'} bordercolor={'#002940'} />
 		<LegendItem variant={'line'} label={'Low Density Main Street'} bordercolor={'#00adf2'} />
 		<LegendItem variant={'line'} label={'Arterial Streets'} bordercolor={'#eee'} />
