@@ -12,6 +12,8 @@
 
 	export let map;
 	let rbcBranchLayerVisible = false;
+	let DBSCANLayerVisible = false;
+
 
 
 	let geocoder;
@@ -75,6 +77,37 @@
     }
 
 
+	function toggleDBSCANlayer() {
+        DBSCANLayerVisible = !DBSCANLayerVisible;
+        map.setLayoutProperty(
+            'rbc-acoa-dbscan',
+            'visibility',
+            DBSCANLayerVisible ? 'visible' : 'none'
+        );
+		map.setLayoutProperty(
+            'rbc-prairiescan-dbscan',
+            'visibility',
+            DBSCANLayerVisible ? 'visible' : 'none'
+        );
+		map.setLayoutProperty(
+            'rbc-pacifican-dbscan',
+            'visibility',
+            DBSCANLayerVisible ? 'visible' : 'none'
+        );
+		map.setLayoutProperty(
+            'rbc-quebec-dbscan',
+            'visibility',
+            DBSCANLayerVisible ? 'visible' : 'none'
+        );
+		map.setLayoutProperty(
+            'rbc-ontario-dbscan',
+            'visibility',
+            DBSCANLayerVisible ? 'visible' : 'none'
+        );
+		console.log(DBSCANLayerVisible);
+    }
+
+
 </script>
 
 <svelte:head>
@@ -95,10 +128,11 @@
 	<div id="map" />
 	<div class="legend">
 		<h4>Legend</h4>
-
-		<div style="display:flex;flex-direction:row; gap: 0.5em;align-items: center;">		<button on:click={toggleRbcBranchLayer}>
+		<div style="display:flex;flex-direction:row; gap: 0.5em;align-items: center;">		
+			<button on:click={toggleRbcBranchLayer}>
 			{rbcBranchLayerVisible ? 'Hide RBC Branches' : 'Show RBC Branches'}
-		</button><svg width="16px" height="21px" viewBox="0 0 16 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+		</button>
+		<svg width="16px" height="21px" viewBox="0 0 16 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 			<title>RBC_Royal_Bank</title>
 			<g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
 				<g id="RBC_Royal_Bank" transform="translate(-0, 0.0843)" fill-rule="nonzero">
@@ -112,7 +146,9 @@
 					</g>
 				</g>
 			</g>
-		</svg> </div>
+		</svg>
+
+	</div>
 
 		<br>
 
@@ -177,13 +213,18 @@
 				</g>
 			</g>
 		</svg>
+
+		<br>
+		<button on:click={toggleDBSCANlayer}>
+			{DBSCANLayerVisible ? 'Hide DBSCAN Clusters' : 'Show DBSCAN Clusters'}
+		</button>
+		<!-- <LegendItem variant={'line'} label={'Identified Clusters'} bordercolor={'#db0000'} /> -->
 		<!-- <Legend
 					minlabel={'Low'}
 					maxlabel={'High'}
 					label={'Average Employment Income (scaled to regional average)'}
 					gradient={'linear-gradient(to right, #cceffe, #99dffc, #34bef9, #018bc6, #004663)'}
 				/>
-		<LegendItem variant={'line'} label={'High Density Main Streets'} bordercolor={'#ddd'} />
 		<LegendItem variant={'line'} label={'Low Density Main Street'} bordercolor={'#eee'} /> -->
 	</div>
 
