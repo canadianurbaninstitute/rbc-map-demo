@@ -154,7 +154,7 @@
 
 
 		
-<svg width="144.503368px" height="140.159066px" viewBox="0 0 144.503368 140.159066" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<!-- <svg width="144.503368px" height="140.159066px" viewBox="0 0 144.503368 140.159066" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g id="ypcbizbqn6mm0139s56" fill-rule="nonzero">
             <rect id="Rectangle" fill="#ED97B4" x="34.503368" y="0" width="55" height="55"></rect>
@@ -217,12 +217,12 @@
             <polygon id="Path" fill="#5D5D5D" points="26.544747 23.7827586 31.044747 32.7827586 27.044 32.782 27.044747 90.2827586 26.044747 90.2827586 26.044 32.782 22.044747 32.7827586"></polygon>
         </g>
     </g>
-</svg>
+</svg> -->
 
 		<br>
-		<button on:click={toggleDBSCANlayer}>
+		<!-- <button on:click={toggleDBSCANlayer}>
 			{DBSCANLayerVisible ? 'Hide DBSCAN Clusters' : 'Show DBSCAN Clusters'}
-		</button>
+		</button> -->
 		<!-- <LegendItem variant={'line'} label={'Identified Clusters'} bordercolor={'#db0000'} /> -->
 		<!-- <Legend
 					minlabel={'Low'}
