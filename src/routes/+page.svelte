@@ -25,10 +25,16 @@
 			center: [-78.087, 44.768],
 			zoom: 6,
 			maxZoom: 18,
-			minZoom: 3,
+			minZoom: 5,
 			scrollZoom: true,
 			attributionControl: false,
 		});
+
+		    // disable map rotation using right click + drag
+			map.dragRotate.disable();
+
+// disable map rotation using touch rotation gesture
+map.touchZoomRotate.disableRotation();
 
 		geocoder = new MapboxGeocoder({
 			accessToken: mapboxgl.accessToken,
